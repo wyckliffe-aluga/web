@@ -1,0 +1,15 @@
+{
+  "name": "v1",
+  "version": "1.0.0",
+  "description": "Starting node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Wyckliffe Aluga",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
