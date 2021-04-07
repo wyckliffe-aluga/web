@@ -18,6 +18,13 @@ main {
 form {
   display: inline;
 }
+.centered {
+  text-align: center;
+  width: 50%;
+}
+.centered img {
+  width: 50%;
+}
 
 .main-header {
   width: 100%;
