@@ -1,19 +1,25 @@
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
-//const mysql = require('mysql2') ; 
+const uri = "mongodb+srv://duka:MWrbPKr2ntgycM1n@stark.4xuge.mongodb.net/duka?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-//const pool  = mysql.createPool({
-//    host: 'localhost', 
-//    user: 'root', 
-//    database: 'node-complete', 
-//    password: 'PjK5vYfR'
-//});
-//module.exports = pool.promise(); 
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
-const Sequelize = require('sequelize');
+const mongoConnect = (callback) => {
 
-const sequelize = new Sequelize('node-complete', 'root', 'PjK5vYfR', {
-    dialect: 'mysql', 
-    host: 'localhost'
-});
+    MongoClient.connect(uri)
+        .then(result => {
+            console.log('Connected!'); 
+            callback(result);
+         })
+         .catch( err => {
+            console.log(err);
+    })
+}
 
-module.exports = sequelize ; 
+module.exports = mongoConnect ; 
