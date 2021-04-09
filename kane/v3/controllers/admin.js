@@ -10,15 +10,16 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-    const id = uuidv4().toString();
+    const key = uuidv4().toString();
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
 
+    console.log(req.user);
     req.user
       .createProduct({
-        id: id,
+        key: key,
         title: title,
         imageUrl: imageUrl,
         price: price, 
@@ -67,6 +68,7 @@ exports.postEditProduct = (req, res, next) => {
 
     Product.findOne({where: {id: prodId}})
       .then(product => {
+        product.key = product.key;
         product.title = updatedTitle; 
         product.price = updatedPrice;
         product.imageUrl = updatedImageUrl; 
