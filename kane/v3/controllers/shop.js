@@ -1,12 +1,11 @@
 const Product = require('../model/product');
-const Order = require('../model/order');
 const orderid = require('order-id')('mysecret');
 
 const id = orderid.generate();
 
 exports.getProducts = (req, res, next) => {
 
-  Product.findAll()
+  Product.fetchAll()
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
@@ -18,6 +17,7 @@ exports.getProducts = (req, res, next) => {
       console.log(err); 
     });
 };
+
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
