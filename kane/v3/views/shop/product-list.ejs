@@ -7,7 +7,6 @@
 
             <main>
                 <% if (prods.length > 0) { %>
-                    <div class="">
                     <div class="grid">
                         <% for (let product of prods) { %>
                             <article class="card product-item">
@@ -16,15 +15,9 @@
                                         <%= product.title %>
                                     </h1>
                                 </header>
-                                
-                                <div class="view zoom overlay z-depth-2 rounded">
-                                      <div class="mask">
-                                        <img class="img-fluid w-100"
-                                        <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
-                                        <div class="mask rgba-black-slight"></div>
-                                      </div>
-                                    </a>
-                                  </div>
+                                <div class="card__image">
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                                </div>
                                 <div class="card__content">
                                     <h2 class="product__price">$
                                         <%= product.price %>
@@ -34,13 +27,12 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/products/<%= product.id%>" class='btn'>Details</a>
-                                <%- include('../includes/add-to-cart.ejs', {product:product}) %>
+                                    <a href="/products/<%= product.id %>/<%= product.key %>" class="btn">Details</a>
+                                    <%- include('../includes/add-to-cart.ejs', {product: product}) %>
                                 </div>
                             </article>
                             <% } %>
                     </div>
-                </div>
                     <% } else { %>
                         <h1>No Products Found!</h1>
                         <% } %>
