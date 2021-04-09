@@ -5,7 +5,9 @@ const errorController = require('./controllers/error');
 const sequelize = require('./util/database');
 const Product = require('./model/product');
 const User = require('./model/user');
-
+const Cart = require('./model/cart');
+const CartItem = require('./model/cart-item');
+var uniqid = require('uniqid');
 const app = express() ; 
 
 //app.engine('handlebars', expressHbs());
@@ -21,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findOne({where: {id: 'gqpkkn9j7m4k'}})
+    User.findOne({where: {id: 1}})
     .then(user => {
         req.user = user;
         next();
@@ -38,28 +40,35 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 // A user created this product
-Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+Product.belongsTo(User);
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User); 
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart,  { through: CartItem });
 
 sequelize
-     //.sync({force: true})
+   // .sync({force: true})
     .sync()
     .then( result => {
-        return User.findOne({where: {id: 'gqpkkn9j7m4k'}});
+        return User.findOne({where: {id: 1}});
     })
     .then( user => {
         if(!user) {
             return  User.create({
-                id: 'gqpkkn9j7m4k', 
+                id: 1, 
+                key: uniqid().toString(),
                 firstName: 'Tony', 
                 lastName: 'Stark',
                 email: 'tony@stark.com'
             });
-        return Promise.resolve(user);
         }
+        return user;
     })
     .then(user => {
-        //console.log(user);
+        return user.createCart();
+    })
+    .then(cart => {
         app.listen(3000);
     })
     .catch(err => {
