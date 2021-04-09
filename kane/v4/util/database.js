@@ -1,25 +1,30 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const uri = "mongodb+srv://duka:MWrbPKr2ntgycM1n@stark.4xuge.mongodb.net/duka?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let _db ;
 
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
+const uri = "mongodb+srv://duka:MWrbPKr2ntgycM1n@stark.4xuge.mongodb.net/duka?retryWrites=true&w=majority";
 
 const mongoConnect = (callback) => {
 
     MongoClient.connect(uri)
-        .then(result => {
+        .then(client => {
             console.log('Connected!'); 
-            callback(result);
+            _db = client.db();
+            callback();
          })
          .catch( err => {
             console.log(err);
+            throw err;
     })
 }
 
-module.exports = mongoConnect ; 
+const getDb = () => {
+    if(_db) {
+        return _db;
+    }
+    throw 'No Database found';
+};
+
+exports.mongoConnect = mongoConnect ;
+exports.getDb = getDb; 
