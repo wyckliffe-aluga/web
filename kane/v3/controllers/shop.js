@@ -1,5 +1,8 @@
 const Product = require('../model/product');
 const Order = require('../model/order');
+const orderid = require('order-id')('mysecret');
+
+const id = orderid.generate();
 
 exports.getProducts = (req, res, next) => {
 
@@ -122,13 +125,28 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
+  let fetchedCart ;
   req.user 
     .getCart()
     .then(cart => {
+      fetchedCart = cart;
       return cart.getProducts();
     })
     .then(products => {
-      console.log(products);
+     return req.user.createOrder({orderNo: orderid.getTime(id).toString()})
+        .then(order => {
+          order.addProducts(products.map(product => {
+            product.orderItem = {quantity: product.cartItem.quantity };
+            return product;
+          }));
+        })
+        .catch(err => console.log(err));
+    })
+    .then(result => {
+      return fetchedCart.setProducts(null);
+    })
+    .then( result => {
+      res.redirect('/orders');
     })
     .catch(err => console.log(err));
 };
