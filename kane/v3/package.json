@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "express-handlebars": "3.0",
     "mysql2": "^2.2.5",
+    "order-id": "^2.1.1",
     "pug": "^3.0.2",
     "sequelize": "^6.6.2",
     "uniqid": "^5.3.0",
