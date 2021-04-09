@@ -7,12 +7,12 @@ const Product = require('./model/product');
 const User = require('./model/user');
 const Cart = require('./model/cart');
 const CartItem = require('./model/cart-item');
-var uniqid = require('uniqid');
+const Order = require('./model/order');
+const OrderItem = require('./model/order-item');
+const uniqid = require('uniqid');
+
 const app = express() ; 
 
-//app.engine('handlebars', expressHbs());
-//app.set('view engine', 'handlebars');
-//app.set('view engine', 'pug');
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -46,9 +46,12 @@ User.hasOne(Cart);
 Cart.belongsTo(User); 
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart,  { through: CartItem });
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.belongsToMany(Product, {through: OrderItem});
 
 sequelize
-   // .sync({force: true})
+    //.sync({force: true})
     .sync()
     .then( result => {
         return User.findOne({where: {id: 1}});
