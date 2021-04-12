@@ -1,0 +1,5 @@
+<form action="/admin/add-farmer" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+    <button class="btn" type="submit">Add Farmer</button>
+    <input type="hidden" name="groupId" value="<%= group._id %>">
+</form>
