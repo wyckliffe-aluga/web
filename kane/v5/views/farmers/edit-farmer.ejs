@@ -1,0 +1,47 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-farmer<% } else { %>add-farmer<% } %>" method="POST">
+            <div class="form-control">
+                <label for="groupname">Group Name</label>
+                <input type="text" name="groupname" id='groupname' value="<%= group.name %> " readonly>
+            </div>
+            <div class="form-control">
+                <label for="accountNo">Group Account No</label>
+                <input type="text" name="accountNo" id='accountNo' value="<%= group.accountNo %> " readonly>
+            </div>
+            <div class="form-control">
+                <label for="fname">First Name</label>
+                <input type="text" name="fname" id="fname" value="<% if (editing) { %><%= farmer.firstName %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" id="lname" value="<% if (editing) { %><%= farmer.lastName %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="phonenumber">Phone Number</label>
+                <input type="number" name="phonenumber" id="phonenumber" value="<% if (editing) { %><%= farmer.phoneNumber %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location" value="<% if (editing) { %><%= farmer.location %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="farmsize">Farm Size (acres)</label>
+                <input type="number" name="farmsize" id="farmsize" step="0.01" value="<% if (editing) { %><%= farmer.farmSize %><% } %>">
+            </div>
+            
+            <% if (editing) { %>
+                <input type="hidden" value="<%= farmer._id %>" name="farmerId">
+            <% } %>
+            <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+            <button class="btn" type="submit"><% if (editing) { %>Update Farmer<% } else { %>Add Farmer<% } %></button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>
