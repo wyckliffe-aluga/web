@@ -28,6 +28,7 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+const farmerRoutes = require('./routes/farmer');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -63,10 +64,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/admin', adminRoutes);
+app.use('/admin', farmerRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
-
 app.use(errorController.get404);
+
 
 mongoose
   .connect(MONGODBURI )
