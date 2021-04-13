@@ -33,4 +33,11 @@ const groupSchema = new Schema({
 
 });
 
+groupSchema.methods.addToGroup = function(farmerId) {
+    fms = []
+    fms.push(farmerId);
+    this.farmers.farmers = fms ; 
+    return this.save();
+}
+
 module.exports = mongoose.model('Group', groupSchema ) ;
