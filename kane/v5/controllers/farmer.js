@@ -2,8 +2,6 @@ const generateUniqueId = require('generate-unique-id');
 const Farmer = require('../models/farmer');
 const Group = require('../models/group');
 
-let fm;
-
 exports.getAddGroup = (req, res, next) => {
     res.render('farmers/edit-group', {
         pageTitle: 'Add Group', 
@@ -11,7 +9,6 @@ exports.getAddGroup = (req, res, next) => {
         editing: false,
     });
 }
-
 
 exports.postAddGroup = (req, res, next) => {
     const name = req.body.name;
@@ -152,7 +149,7 @@ exports.postAddFarmer = (req, res, next) => {
     }); 
     farmer
     .save()
-    .then(result => {
+    .then( result => {
         console.log('created a farmer successfully');
         res.redirect('/admin/farmers');
     })
